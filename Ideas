@@ -1,0 +1,14 @@
+- game has
+	- frog
+	- map
+	
+- map has
+	- hashmap<int, arraylist<obstacle>>
+	- hashmap<int, int>
+	
+- frog has
+	- int posnX
+	- int lives
+	- int score
+	- int lane
+	- int horizSpeed
