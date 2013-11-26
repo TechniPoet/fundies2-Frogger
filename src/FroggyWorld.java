@@ -6,13 +6,16 @@ import javalib.worldimages.*;
 import javalib.worldimages.WorldImage;
 public class FroggyWorld extends World {
     Frog frog;
-    LevelMap level;
-    static int height = 600;
-    static int width = 800;
-    int levelHeight = FroggyWorld.height/11;
-    FroggyWorld(Frog frog, LevelMap level) {
+    LaneMap laneMap;
+    final static int LANE_NUM = 10;
+    final static int HEIGHT = 600;
+    final static int WIDTH = 800;
+    
+    int levelHeight = FroggyWorld.HEIGHT/LANE_NUM;
+    
+    FroggyWorld(Frog frog, LaneMap laneMap) {
         this.frog = frog;
-        this.level = level;
+        this.laneMap = laneMap;
     }
     FroggyWorld() { 
         
@@ -22,16 +25,30 @@ public class FroggyWorld extends World {
      * Checks for collisions
      */
     public void onTick() {
-        //on tick methods
+    	this.laneMap.tick();
+    	
+    	//checks if frog has reached the end
+    	if (this.frog.lane.equals(LANE_NUM)) {
+    		this.frog.restart(false);
+    		break;
+    	}
+    	//if frog has died
+        if (this.laneMap.hasDied(this.frog.lane, this.frog.posnX)) {
+        	this.frog.restart(true);
+        }
+        else {
+        	this.frog.horizSpeed = this.laneMap.onSpeed(this.frog.lane);
+        }
+        
     }
     
-    WorldImage goalImage = new RectangleImage(new Posn(this.width / 2, this.levelHeight / 2), this.width, this.levelHeight, new Green());
-    WorldImage waterImage = new RectangleImage(new Posn(this.width / 2, this.levelHeight * 3), this.width, this.levelHeight * 4, new Blue());
-    WorldImage midImage = new RectangleImage(new Posn(this.width / 2, this.levelHeight * 5 + (this.levelHeight / 2)), this.width, this.levelHeight, new Green());
-    WorldImage roadImage = new RectangleImage(new Posn(this.width / 2, this.levelHeight * 8), this.width, this.levelHeight * 4, new Black());
-    WorldImage startImage = new RectangleImage(new Posn(this.width / 2, this.levelHeight * 10 + (this.levelHeight / 2)), this.width, this.levelHeight, new Green());
+    WorldImage goalImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight / 2), this.WIDTH, this.levelHeight, new Green());
+    WorldImage waterImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 3), this.WIDTH, this.levelHeight * 4, new Blue());
+    WorldImage midImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 5 + (this.levelHeight / 2)), this.WIDTH, this.levelHeight, new Green());
+    WorldImage roadImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 8), this.WIDTH, this.levelHeight * 4, new Black());
+    WorldImage startImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 10 + (this.levelHeight / 2)), this.WIDTH, this.levelHeight, new Green());
     
-    WorldImage test = new RectangleImage(new Posn(0, 0), this.width, this.height, new Green());
+    WorldImage test = new RectangleImage(new Posn(0, 0), this.WIDTH, this.HEIGHT, new Green());
     
     WorldImage background = new OverlayImages( this.startImage, 
             new OverlayImages( this.roadImage,

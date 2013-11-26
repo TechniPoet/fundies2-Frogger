@@ -12,3 +12,5 @@
 	- int score
 	- int lane
 	- int horizSpeed
+	- method Restart(boolean died) which sets lane and posnX to 
+	starting position and lowers life or increases score

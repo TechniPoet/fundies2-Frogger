@@ -27,7 +27,7 @@ public abstract class IObject {
      */
     boolean isVisible() {
         if (this.direction.equals("r")) {
-            if (this.xPosn > FroggyWorld.width) {
+            if (this.xPosn > FroggyWorld.WIDTH) {
                 return false;
             }
             else {
