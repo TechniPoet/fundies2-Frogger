@@ -7,8 +7,8 @@ import javalib.worldimages.WorldImage;
 public class LevelMap {
     HashMap<Integer, ArrayList<IObject>> levels;
     HashMap<Integer, Integer> levelSpeed;
-    int dangerStart;
-    int dangerEnd;
+    int dangerStart = 1;
+    int dangerEnd = 5; //Exclusive
     //as far as direction I assume well make it alternating so we can 
     //have a counter and have it mod 2 for object generation
     public void move() {
