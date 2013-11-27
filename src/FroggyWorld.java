@@ -1,12 +1,16 @@
 import java.awt.Color;
+import java.util.ArrayList;
 
 import javalib.colors.*;
 import javalib.impworld.*;
 import javalib.worldimages.*;
-import javalib.worldimages.WorldImage;
+
 public class FroggyWorld extends World {
     Frog frog;
     LaneMap laneMap;
+    ArrayList<Car> cars;
+    ArrayList<Log> logs;
+    ArrayList<Lily> lilies; 
     final static int LANE_NUM = 10;
     final static int HEIGHT = 600;
     final static int WIDTH = 800;
@@ -17,6 +21,7 @@ public class FroggyWorld extends World {
         this.frog = frog;
         this.laneMap = laneMap;
     }
+    
     FroggyWorld() { 
         
     }
@@ -28,9 +33,9 @@ public class FroggyWorld extends World {
     	this.laneMap.tick();
     	
     	//checks if frog has reached the end
-    	if (this.frog.lane.equals(LANE_NUM)) {
+    	if (this.frog.lane == LANE_NUM) {
     		this.frog.restart(false);
-    		break;
+    		//break;
     	}
     	//if frog has died
         if (this.laneMap.hasDied(this.frog.lane, this.frog.posnX)) {

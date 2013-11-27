@@ -5,8 +5,8 @@ import javalib.worldimages.WorldImage;
 
 
 public class LaneMap {
-    HashMap<Integer, ArrayList<IObject>> lanes;
-    HashMap<Integer, Integer> laneSpeed;
+    HashMap<Integer, IObjectList> lanes;
+    //HashMap<Integer, Integer> laneSpeed;
     ArrayList<Integer> safeZones;
     int roadStart = 1;
     int roadEnd = 5; //Exclusive
@@ -19,17 +19,20 @@ public class LaneMap {
     	this.safeZones.add(0);
     	this.safeZones.add(10);
     	this.safeZones.add(5);
+    	/*
     	for (int i = 0; i <= FroggyWorld.LANE_NUM; i++) {
     		this.lanes.put(i, new ArrayList<IObject>());
     		this.laneSpeed.put(i, 0);
     	}
-    	
+    	//*/
     }
     
-    //as far as direction I assume well make it alternating so we can 
+    //as far as direction I assume we'll make it alternating so we can 
     //have a counter and have it mod 2 for object generation
     public void move() {
-
+        for(int i : this.lanes.keySet()) {
+            this.lanes.get(i).moveAll(0, FroggyWorld.WIDTH);
+        }
     }
     /**
      * does frog collide with anything?
@@ -38,7 +41,8 @@ public class LaneMap {
      * @return true if frog collides with any objects
      */
     public boolean hasCollide(int lane, int x) {
-    	for(IObject obj: this.lanes.get(lane)) {
+    	IObjectList temp = this.lanes.get(lane);
+        for(IObject obj: temp.iObjects) {
     		if (obj.hasCollide(x)) {
     			return true;
     		}
@@ -81,9 +85,11 @@ public class LaneMap {
         //internal should be the same as hasCollide but return the objects speed instead
         return 0;
     }
+    
     public WorldImage drawLane() {
         return null;
     }
+    
     public void killOffScreen() {
     	
     }

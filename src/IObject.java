@@ -7,10 +7,18 @@ public abstract class IObject {
     int speed;
     String direction; 
 
+    /**
+     * The constructor for this class
+     */
+    IObject() {
+        
+    }
+    
     /**draws image of object
      * @return WorldImage of IObject
      */
     abstract WorldImage draw();
+    
     /**
      * changes position along the x axis
      */
@@ -22,6 +30,7 @@ public abstract class IObject {
             this.xPosn -= this.speed;
         }
     }
+    
     /**
      * @return true if still on screen
      */
@@ -44,6 +53,7 @@ public abstract class IObject {
         }
 
     }
+    
     /**
      * @param x posn
      * @return true if int x is in objects range
