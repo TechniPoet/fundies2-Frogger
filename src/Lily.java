@@ -1,15 +1,21 @@
+import javalib.colors.Green;
+import javalib.worldimages.Posn;
+import javalib.worldimages.RectangleImage;
 import javalib.worldimages.WorldImage;
 
 
 public class Lily extends IObject {
-    
-    Lily() {
-        // TODO these gonna be preset?
+	static int lilyWidth = 50;
+	
+    Lily(int lane, int speed) {
+    	super(lane, speed);
+        this.width = this.lilyWidth;
+        this.height = 50;
     }
 
-    @Override
+    /** returns image of lily **/
     WorldImage draw() {
-        // TODO Auto-generated method stub
-        return null;
+        return new RectangleImage(new Posn(this.xPosn, this.yPosn),
+        		this.width, this.height, new Green());
     }
 }

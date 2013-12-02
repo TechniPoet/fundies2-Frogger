@@ -2,16 +2,23 @@ import javalib.worldimages.WorldImage;
 
 public abstract class IObject {
     int xPosn;
+    int yPosn;
     int width;
     int height;
     int speed;
-    String direction; 
 
     /**
      * The constructor for this class
      */
-    IObject() {
-        
+    IObject(int lane, int speed) {
+        this.yPosn = ((FroggyWorld.LANE_NUM - lane) * FroggyWorld.levelHeight) - (FroggyWorld.levelHeight / 2);
+        this.speed = speed;
+        if (speed < 0) {
+        	this.xPosn = FroggyWorld.WIDTH;
+        }
+        else {
+        	this.xPosn = 0;
+        }
     }
     
     /**draws image of object
@@ -23,19 +30,14 @@ public abstract class IObject {
      * changes position along the x axis
      */
     void move() {
-        if (this.direction.equals("r")) {
-            this.xPosn += this.speed;
-        }
-        else {
-            this.xPosn -= this.speed;
-        }
+        this.xPosn += this.speed;
     }
     
     /**
      * @return true if still on screen
      */
     boolean isVisible() {
-        if (this.direction.equals("r")) {
+        if (this.speed > 0) {
             if (this.xPosn > FroggyWorld.WIDTH) {
                 return false;
             }
