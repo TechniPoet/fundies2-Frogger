@@ -1,4 +1,4 @@
-import javalib.colors.Black;
+import javalib.colors.Red;
 import javalib.worldimages.Posn;
 import javalib.worldimages.RectangleImage;
 import javalib.worldimages.WorldImage;
@@ -15,7 +15,7 @@ public class Car extends IObject {
     @Override
     WorldImage draw() {
     	return new RectangleImage(new Posn(this.xPosn, this.yPosn),
-        		this.width, this.height, new Black());
+        		this.width, this.height, new Red());
     }
 
 }

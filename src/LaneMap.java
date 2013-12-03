@@ -9,6 +9,7 @@ import javalib.worldimages.*;
 public class LaneMap {
     HashMap<Integer, ArrayList<IObject>> lanes;
     HashMap<Integer, Integer> laneSpeed;
+    HashMap<Integer, Integer> laneTickers;
     ArrayList<Integer> safeZones;
     int roadStart = 1; //inclusive
     int roadEnd = 5; //Exclusive
@@ -24,13 +25,30 @@ public class LaneMap {
     LaneMap() {
     	this.lanes = new HashMap<Integer, ArrayList<IObject>>();
     	this.laneSpeed = new HashMap<Integer, Integer>();
+    	this.laneTickers = new HashMap<Integer, Integer>();
     	this.safeZones = new ArrayList<Integer>();
     	this.safeZones.add(0);
     	this.safeZones.add(10);
     	this.safeZones.add(5);
     	this.createLaneSpeed();
+    	this.createLanes();
+    	this.createLaneTickers();
     }
     
+    public void createLanes() {
+        for (int i = 0; i < FroggyWorld.LANE_NUM; i++) {
+            if (!this.safeZones.contains(i)) {
+                this.lanes.put(i, new ArrayList<IObject>());
+            }
+        }
+    }
+    public void createLaneTickers() {
+        for (int i = 0; i <= FroggyWorld.LANE_NUM; i++) {
+            if (!this.safeZones.contains(i)) {
+                this.laneTickers.put(i, 0);
+            }
+        }
+    }
     public void createLaneSpeed() {
     	for (int i = 0; i <= FroggyWorld.LANE_NUM; i++) {
     		if (this.safeZones.contains(i)) {
@@ -134,64 +152,71 @@ public class LaneMap {
      */
     public void killOffScreen() {
     	for(int i : this.lanes.keySet()) {
-            if (!this.lanes.get(i).get(0).isVisible()) {
-            	this.lanes.get(i).remove(0);
+            if (this.lanes.get(i).size() > 0 && !this.lanes.get(i).get(0).isVisible()) {
+                ArrayList<IObject> temp = this.lanes.get(i);
+                temp.remove(0);
+            	this.lanes.put(i, temp);
             }
         }
     }
     public void generateNew() {
-    	for(int i : this.lanes.keySet()) {
-    		if (i >= this.roadStart && i < this.roadEnd) {
-    			this.carGen(i);
-    		}
-    		else {
-    			if (i % 2 == 0) {
-    				this.lilyGen(i);
-    			}
-    			else {
-    				this.logGen(i);
-    			}
-    		}
-    	}
+        for(int i : this.lanes.keySet()) {
+            if (!this.safeZones.contains(i)) {
+                if (i >= this.roadStart && i < this.roadEnd) {
+                    this.carGen(i);
+                }
+                else {
+                    if (i % 2 == 0) {
+                        this.lilyGen(i);
+                    }
+                    else {
+                        this.logGen(i);
+                    }
+                }
+            }
+        }
     }
     public void logGen(int lane) {
-    	if (this.logTicker == 0) {
+    	if (this.laneTickers.get(lane) == 0) {
 			int speed = this.laneSpeed.get(lane);
 			this.lanes.get(lane).add(new Log(lane, speed));
-			this.carTicker = Log.logWidth / speed + this.rand.nextInt(10);
+			this.laneTickers.put(lane, Log.logWidth / speed + 15 + this.rand.nextInt(30));
 		}
 		else {
-			logTicker -= 1;
+		    int temp = this.laneTickers.get(lane) - 1;
+		    this.laneTickers.put(lane, temp);
 		}
     }
     public void lilyGen(int lane) {
-    	if (this.lilyTicker == 0) {
-			int speed = this.laneSpeed.get(lane);
-			this.lanes.get(lane).add(new Lily(lane, speed));
-			this.carTicker = Lily.lilyWidth / speed + this.rand.nextInt(10);
-		}
-		else {
-			lilyTicker -= 1;
-		}
+        if (this.laneTickers.get(lane) == 0) {
+            int speed = this.laneSpeed.get(lane);
+            this.lanes.get(lane).add(new Lily(lane, speed));
+            this.laneTickers.put(lane, Lily.lilyWidth / speed + 15 + this.rand.nextInt(30));
+        }
+        else {
+            int temp = this.laneTickers.get(lane) - 1;
+            this.laneTickers.put(lane, temp);
+        }
     }
     public void carGen(int lane) {
-    	if (this.carTicker == 0) {
-			int speed = this.laneSpeed.get(lane);
-			this.lanes.get(lane).add(new Car(lane, speed));
-			this.carTicker = Car.carWidth / speed + this.rand.nextInt(10);
-		}
-		else {
-			carTicker -= 1;
-		}
+        if (this.laneTickers.get(lane) == 0) {
+            int speed = this.laneSpeed.get(lane);
+            this.lanes.get(lane).add(new Car(lane, speed));
+            this.laneTickers.put(lane, Car.carWidth / speed + 15 + this.rand.nextInt(30));
+        }
+        else {
+            int temp = this.laneTickers.get(lane) - 1;
+            this.laneTickers.put(lane, temp);
+        }
     }
     /**
      * general tick method to contain
      * killOffScreen(), generateNew(), and move()
      */
     public void tick() {
-    	//this.move();
+    	this.move();
     	this.generateNew();
-    	//this.killOffScreen();
+    	this.killOffScreen();
     	
     }
 }
