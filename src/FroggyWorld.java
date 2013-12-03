@@ -14,9 +14,15 @@ public class FroggyWorld extends World {
     
     final static int levelHeight = FroggyWorld.HEIGHT/LANE_NUM;
     
-    FroggyWorld(Frog frog) {
-        this.frog = frog;
+    FroggyWorld() {
+        this.frog = new Frog(3);
         this.laneMap = new LaneMap();
+    }
+    
+    FroggyWorld(Frog frog, LaneMap laneMap) {
+    	this();
+    	this.frog = frog;
+    	this.laneMap = laneMap;
     }
 
     /**
@@ -25,15 +31,16 @@ public class FroggyWorld extends World {
     ///*
     public void onTick() {
     	this.laneMap.tick();
+    	this.frog.tick();
     	
     	//checks if frog has reached the end
-    	if (this.frog.lane == LANE_NUM - 1) {
-    		//this.frog.restart(false);
-    		//break;
+    	if (this.frog.lane >= LANE_NUM - 1) {
+    		this.frog.restart(false);
+    		return;
     	}
     	//if frog has died
         if (this.laneMap.hasDied(this.frog.lane, this.frog.posnX)) {
-        	//this.frog.restart(true);
+        	this.frog.restart(true);
         }
         else {
         	this.frog.horizSpeed = this.laneMap.onSpeed(this.frog.lane);
@@ -58,14 +65,34 @@ public class FroggyWorld extends World {
      * creates images for game
      */
     public WorldImage makeImage() {
-        return new OverlayImages(new OverlayImages(this.background, this.laneMap.drawLane()), this.frog.drawFrog());
+        return new OverlayImages(new OverlayImages(this.background, this.laneMap.draw()), this.frog.draw());
     }
     /**
      * processes key inputs
+     * if <code>x</code> is pressed game is ended
+     * else arrow keys move frog
      * @param ke key input
      */
-    public void onKey(String ke) {
-
+    public void onKeyEvent(String ke) {
+    	if (ke.equals("x")) {
+    		this.endOfWorld("Game Ended");
+    	}
+    	else {
+    		this.frog.move(ke);
+    	}
+    }
+    
+    public WorldEnd worldEnds() {
+    	if(this.frog.lives == 0) {
+    		return new WorldEnd(true, this.lastImage());
+    	}
+    	else {
+    		return new WorldEnd(false, this.makeImage());
+    	}
+    }
+    public WorldImage lastImage() {
+    	return new TextImage(new Posn(FroggyWorld.HEIGHT / 2, FroggyWorld.WIDTH / 2), "Your hippity hopping in a better place now", 
+                    Color.red);
     }
 
 }

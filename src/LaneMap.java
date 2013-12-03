@@ -103,7 +103,7 @@ public class LaneMap {
     		return false;
     	}
     	// collision has occurred
-    	if (hasCollide(lane, x)) {
+    	if (this.hasCollide(lane, x)) {
     		//if frog is in road, collision means death
     		if (lane >= this.roadStart && lane < this.roadEnd) {
     			return true;
@@ -125,12 +125,11 @@ public class LaneMap {
         return this.laneSpeed.get(lane);
     }
     
-    public WorldImage drawLane() {
+    public WorldImage draw() {
     	int counter = 0; //how many objects returning images
     	// unimportant temp image
     	WorldImage temp = new RectangleImage(new Posn(-1000, -1000), 0, 0, new Red());
     	for(int i : this.lanes.keySet()) { // goes through each lane
-    		System.out.println("lane" + i + "counter" + counter);
             for(IObject o: this.lanes.get(i)) { // each object in array list
             	if (counter > 0) {
             		temp = new OverlayImages(temp, o.draw());
@@ -180,7 +179,7 @@ public class LaneMap {
     	if (this.laneTickers.get(lane) == 0) {
 			int speed = this.laneSpeed.get(lane);
 			this.lanes.get(lane).add(new Log(lane, speed));
-			this.laneTickers.put(lane, Log.logWidth / speed + 15 + this.rand.nextInt(30));
+			this.laneTickers.put(lane, Log.logWidth / Math.abs(speed) + 15 + this.rand.nextInt(30));
 		}
 		else {
 		    int temp = this.laneTickers.get(lane) - 1;
@@ -191,7 +190,7 @@ public class LaneMap {
         if (this.laneTickers.get(lane) == 0) {
             int speed = this.laneSpeed.get(lane);
             this.lanes.get(lane).add(new Lily(lane, speed));
-            this.laneTickers.put(lane, Lily.lilyWidth / speed + 15 + this.rand.nextInt(30));
+            this.laneTickers.put(lane, Lily.lilyWidth / Math.abs(speed) + 15 + this.rand.nextInt(30));
         }
         else {
             int temp = this.laneTickers.get(lane) - 1;
@@ -202,7 +201,7 @@ public class LaneMap {
         if (this.laneTickers.get(lane) == 0) {
             int speed = this.laneSpeed.get(lane);
             this.lanes.get(lane).add(new Car(lane, speed));
-            this.laneTickers.put(lane, Car.carWidth / speed + 15 + this.rand.nextInt(30));
+            this.laneTickers.put(lane, Car.carWidth / Math.abs(speed) + 15 + this.rand.nextInt(30));
         }
         else {
             int temp = this.laneTickers.get(lane) - 1;

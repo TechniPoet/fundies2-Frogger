@@ -61,7 +61,7 @@ public abstract class IObject {
      * @return true if int x is in objects range
      */
     boolean hasCollide(int x) {
-        if(this.xPosn <= x && this.xPosn + this.width >= x) {
+        if(this.xPosn - (this.width / 2) <= x && this.xPosn + (this.width / 2) >= x) {
             return true;
         }
         else {
