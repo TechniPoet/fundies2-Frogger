@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javalib.colors.Black;
+import javalib.colors.Blue;
 import javalib.colors.Green;
 import javalib.colors.Red;
 import javalib.colors.Yellow;
@@ -9,11 +11,13 @@ import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
 import javalib.worldimages.RectangleImage;
 import javalib.worldimages.TextImage;
+import javalib.worldimages.WorldImage;
 import tester.*;
 
 // examples of our Frogger classes and methods
 public class Examples {
 	FroggyWorld f1;
+	FroggyWorld f2;
     Frog frog1;
     LaneMap laneMap1;
     Lily lily1;
@@ -48,6 +52,7 @@ public class Examples {
     	this.laneMap1.lanes.put(6, this.lane6);
     	this.laneMap1.lanes.put(1, this.lane1);
     	this.f1 = new FroggyWorld(this.frog1, this.laneMap1);
+    	this.f2 = new FroggyWorld();
     	
     	this.lanes.put(1, new ArrayList<IObject>());
     	this.lanes.put(2, new ArrayList<IObject>());
@@ -90,17 +95,6 @@ public class Examples {
     	//car
     	t.checkExpect(this.car1.draw(), new RectangleImage(
     			new Posn(0, 405), 60, 50, new Red()));
-    	
-    	//makeImage
-    	t.checkExpect(this.f1.makeImage(), new OverlayImages(
-                new OverlayImages(this.background, this.laneMap.draw()),
-                new OverlayImages(new OverlayImages(
-                        new RectangleImage(new Posn(400, 567),
-                                30, 30, new Yellow()),
-                new TextImage(new Posn(40, 20),
-                        "Score: " + 0, new Red())),
-                new TextImage(new Posn(40, 40),
-                        "Lives: " + 1, new Red()))))
     }
     
     //tick methods

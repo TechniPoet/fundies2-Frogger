@@ -186,8 +186,8 @@ public class LaneMap {
     	// unimportant temp image
     	WorldImage temp = new RectangleImage(new Posn(-1000, -1000),
     	        0, 0, new Red());
-    	for(int i : this.lanes.keySet()) { // goes through each lane
-            for(IObject o: this.lanes.get(i)) { // each object in array list
+    	for (int i : this.lanes.keySet()) { // goes through each lane
+            for (IObject o: this.lanes.get(i)) { // each object in array list
             	if (counter > 0) {
             		temp = new OverlayImages(temp, o.draw());
             		counter += 1;
@@ -239,6 +239,10 @@ public class LaneMap {
             }
         }
     }
+    /**
+     * generates logs when needed
+     * @param lane lane log is being placed in
+     */
     public void logGen(int lane) {
     	if (this.laneTickers.get(lane) == 0) { //if ticker is 0 make new object
 			int speed = this.laneSpeed.get(lane);
@@ -251,6 +255,11 @@ public class LaneMap {
 		    this.laneTickers.put(lane, temp);
 		}
     }
+    
+    /**
+     * generates lilys when needed
+     * @param lane lane lily is being placed in
+     */
     public void lilyGen(int lane) { //if ticker is 0 make new object
         if (this.laneTickers.get(lane) == 0) {
             int speed = this.laneSpeed.get(lane);
@@ -263,6 +272,11 @@ public class LaneMap {
             this.laneTickers.put(lane, temp);
         }
     }
+    
+    /**
+     * generates cars when needed
+     * @param lane lane car is being placed in
+     */
     public void carGen(int lane) { //if ticker is 0 make new object
         if (this.laneTickers.get(lane) == 0) {
             int speed = this.laneSpeed.get(lane);

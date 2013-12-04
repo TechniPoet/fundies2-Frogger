@@ -128,7 +128,10 @@ public class FroggyWorld extends World {
     		this.frog.move(ke);
     	}
     }
-    
+    /*
+     * (non-Javadoc)
+     * @see javalib.impworld.World#worldEnds()
+     */
     public WorldEnd worldEnds() {
     	if(this.frog.lives == 0) {
     		return new WorldEnd(true, this.lastImage());
@@ -137,6 +140,10 @@ public class FroggyWorld extends World {
     		return new WorldEnd(false, this.makeImage());
     	}
     }
+    /**
+     * last image
+     * @return image shown when game is lost
+     */
     public WorldImage lastImage() {
     	return new TextImage(
     	        new Posn(FroggyWorld.HEIGHT / 2, FroggyWorld.WIDTH / 2),
