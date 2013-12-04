@@ -14,18 +14,48 @@ public class FroggyWorld extends World {
     
     final static int levelHeight = FroggyWorld.HEIGHT/LANE_NUM;
     
+    /**
+     * default contructor
+     */
     FroggyWorld() {
         this.frog = new Frog(3);
         this.laneMap = new LaneMap();
     }
-    
+    /**
+     * custom constructor
+     * @param frog
+     * @param laneMap
+     */
     FroggyWorld(Frog frog, LaneMap laneMap) {
     	this();
     	this.frog = frog;
     	this.laneMap = laneMap;
     }
+    /*Template
+     * fields
+     * this.frog...			Frog
+     * this.laneMap...		LaneMap
+     * this.LANE_NUM...		int
+     * this.HEIGHT...		int
+     * this.WIDTH...		int
+     * this.levelHeight...	int
+     * this.goalImage...	WorldImage
+     * this.waterImage...	WorldImage
+     * this.midImage...	    WorldImage
+     * this.roadImage...	WorldImage
+     * this.startImage...	WorldImage
+     * this.background...	WorldImage
+     * Methods
+     * this.makeImage()...	WorldImage
+     * this.OnKeyEvent()...	void
+     * this.WorldEnds()...	WorldEnd
+     * this.lastImage()...	WorldImage
+     */
 
     /**
+     * updates score and lives
+     * tick methods for frog and laneMap
+     * moves all objects and frog according to speed
      * Checks for collisions
      */
     ///*
@@ -54,8 +84,6 @@ public class FroggyWorld extends World {
     WorldImage midImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 5 + (this.levelHeight / 2)), this.WIDTH, this.levelHeight, new Green());
     WorldImage roadImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 8), this.WIDTH, this.levelHeight * 4, new Black());
     WorldImage startImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 10 + (this.levelHeight / 2)), this.WIDTH, this.levelHeight, new Green());
-    
-    WorldImage test = new RectangleImage(new Posn(0, 0), this.WIDTH, this.HEIGHT, new Green());
     
     WorldImage background = new OverlayImages( this.startImage, 
             new OverlayImages( this.roadImage,

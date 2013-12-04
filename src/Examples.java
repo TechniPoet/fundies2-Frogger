@@ -1,7 +1,11 @@
+import javalib.colors.Green;
+import javalib.colors.Red;
 import javalib.colors.Yellow;
 import javalib.impworld.World;
+import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
 import javalib.worldimages.RectangleImage;
+import javalib.worldimages.TextImage;
 import tester.*;
 
 // examples of our Frogger classes and methods
@@ -25,10 +29,24 @@ public class Examples {
     //Draw methods
     public void testDraw(Tester t) {
     	this.reset();
-    	t.checkExpect(this.frog1.draw(), new RectangleImage(
-    			new Posn(400, 540), 30, 30, new Yellow()));
-    }
-    public void testMakeImage(Tester t) {
+    	t.checkExpect(this.frog1.draw(),
+    			new OverlayImages(new OverlayImages(
+    					new RectangleImage(new Posn(400, 567),
+    							30, 30, new Yellow()),
+        		new TextImage(new Posn(40, 20),
+        				"Score: " + 0, new Red())),
+        		new TextImage(new Posn(40, 40),
+        				"Lives: " + 1, new Red())));
+    	
+    	t.checkExpect(this.lily1.draw(), new RectangleImage(
+    			new Posn(0, 513), 50, 50, new Green()));
+    	
+    	t.checkExpect(this.log1.draw(), new RectangleImage(
+    			new Posn(FroggyWorld.WIDTH, 459),
+        		100, 50, new Green()));
+    	
+    	t.checkExpect(this.car1.draw(), new RectangleImage(
+    			new Posn(0, 405), 60, 50, new Red()));
     	
     }
     

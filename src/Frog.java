@@ -1,3 +1,4 @@
+import javalib.colors.Red;
 import javalib.colors.Yellow;
 import javalib.worldimages.*;
 
@@ -17,12 +18,18 @@ public class Frog {
         this.score = 0;
         this.lane = 0; // begins at bottom of screen
         this.posnX = FroggyWorld.WIDTH/2; //starts at the widths center
-        this.posnY = ((FroggyWorld.LANE_NUM - this.lane) * FroggyWorld.levelHeight) - (FroggyWorld.levelHeight / 2);
+        this.posnY = ((FroggyWorld.LANE_NUM - this.lane) *
+        		FroggyWorld.levelHeight) - (FroggyWorld.levelHeight / 2);
     }
     
-    /** returns the frogs image **/
+    /** returns the frogs image
+     * score image
+     * lives image **/
     public WorldImage draw() {
-        return  new RectangleImage(new Posn(this.posnX, this.posnY), 30, 30, new Yellow());
+        return  new OverlayImages(new OverlayImages(new RectangleImage(
+        		new Posn(this.posnX, this.posnY), 30, 30, new Yellow()),
+        		new TextImage(new Posn(40, 20), "Score: " + this.score, new Red())),
+        		new TextImage(new Posn(40, 40), "Lives: " + this.lives, new Red()));
     }
     
     public void tick() {
@@ -61,7 +68,8 @@ public class Frog {
         default:
         	break;
         }
-        this.posnY = ((FroggyWorld.LANE_NUM - this.lane) * FroggyWorld.levelHeight) - (FroggyWorld.levelHeight / 2);
+        this.posnY = ((FroggyWorld.LANE_NUM - this.lane) *
+        		FroggyWorld.levelHeight) - (FroggyWorld.levelHeight / 2);
     }
     
     public void restart(boolean dead) {
@@ -73,7 +81,8 @@ public class Frog {
         }
         this.posnX = FroggyWorld.WIDTH / 2; //back to start
     	this.lane = 0;
-    	this.posnY = ((FroggyWorld.LANE_NUM - this.lane) * FroggyWorld.levelHeight) - (FroggyWorld.levelHeight / 2);
+    	this.posnY = ((FroggyWorld.LANE_NUM - this.lane) *
+    			FroggyWorld.levelHeight) - (FroggyWorld.levelHeight / 2);
     	this.horizSpeed = 0;
     }
 }
