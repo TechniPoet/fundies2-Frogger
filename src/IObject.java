@@ -52,7 +52,7 @@ public abstract class IObject {
      */
     boolean isVisible() {
         if (this.speed > 0) {
-            if (this.xPosn > FroggyWorld.WIDTH) {
+            if (this.xPosn - (this.width / 2) > FroggyWorld.WIDTH) {
                 return false;
             }
             else {
@@ -60,7 +60,7 @@ public abstract class IObject {
             }
         }
         else {
-            if (this.xPosn + this.width < 0) {
+            if (this.xPosn + (this.width / 2) < 0) {
                 return false;
             }
             else {

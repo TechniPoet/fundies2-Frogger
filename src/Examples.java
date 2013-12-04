@@ -36,7 +36,7 @@ public class Examples {
     	
     	this.lily1 = new Lily(1, 5);
     	this.lilyOff = new Lily(1, 5);
-    	this.lilyOff.xPosn = FroggyWorld.WIDTH + 30;
+    	this.lilyOff.xPosn = FroggyWorld.WIDTH + 50;
     	this.log1 = new Log(2, -3);
     	this.car1 = new Car(3, 4);
     	
@@ -92,7 +92,15 @@ public class Examples {
     			new Posn(0, 405), 60, 50, new Red()));
     	
     	//makeImage
-    	
+    	t.checkExpect(this.f1.makeImage(), new OverlayImages(
+                new OverlayImages(this.background, this.laneMap.draw()),
+                new OverlayImages(new OverlayImages(
+                        new RectangleImage(new Posn(400, 567),
+                                30, 30, new Yellow()),
+                new TextImage(new Posn(40, 20),
+                        "Score: " + 0, new Red())),
+                new TextImage(new Posn(40, 40),
+                        "Lives: " + 1, new Red()))))
     }
     
     //tick methods
@@ -104,19 +112,118 @@ public class Examples {
     	this.frog1.tick();
     	t.checkExpect(this.frog1.posnX, 410);
     	//LaneMap
-    	//TODO
-    	
+    	t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 0);
+        t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 0);
+        t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 0);
+        t.checkExpect(this.f1.laneMap.lanes.get(6).size(), 2);
+        this.f1.laneMap.laneTickers.put(6, 3);
+        this.f1.laneMap.tick();
+        
+        t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(6).size(), 1);
+        t.checkExpect(this.f1.laneMap.laneTickers.get(6), 2);
     	//t.checkExpect();
     	
     }
     public void testOnTick(Tester t) {
+        //doesnt die
     	this.reset();
+    	t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 0);
+    	t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 0);
+    	t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 0);
+    	t.checkExpect(this.f1.laneMap.lanes.get(6).size(), 2);
+    	this.f1.laneMap.laneTickers.put(6, 3);
+    	t.checkExpect(this.frog1.posnX, 400);
+    	t.checkExpect(this.frog1.score, 0);
+    	t.checkExpect(this.frog1.lives, 1);
+        this.frog1.horizSpeed = 10;
+        
+        this.f1.onTick();
+        
+        t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(6).size(), 1);
+        t.checkExpect(this.f1.laneMap.laneTickers.get(6), 2);
+        t.checkExpect(this.frog1.score, 0);
+        t.checkExpect(this.frog1.lives, 1);
+        t.checkExpect(this.frog1.posnX, 410);
+        t.checkExpect(this.frog1.horizSpeed, 0);
+        
+        //dies
+        this.reset();
+        t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 0);
+        t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 0);
+        t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 0);
+        t.checkExpect(this.f1.laneMap.lanes.get(6).size(), 2);
+        this.f1.laneMap.laneTickers.put(6, 3);
+        this.frog1.posnX = 20;
+        this.frog1.lane = 1;
+        t.checkExpect(this.frog1.lives, 1);
+        t.checkExpect(this.frog1.score, 0);
+        this.frog1.horizSpeed = 10;
+        
+        this.f1.onTick();
+        
+        t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(6).size(), 1);
+        t.checkExpect(this.f1.laneMap.laneTickers.get(6), 2);
+        t.checkExpect(this.frog1.posnX, 400);
+        t.checkExpect(this.frog1.lane, 0);
+        t.checkExpect(this.frog1.lives, 0);
+        t.checkExpect(this.frog1.score, 0);
+        t.checkExpect(this.frog1.horizSpeed, 0);
+        
+        //wins
+        this.reset();
+        t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 0);
+        t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 0);
+        t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 0);
+        t.checkExpect(this.f1.laneMap.lanes.get(6).size(), 2);
+        this.f1.laneMap.laneTickers.put(6, 3);
+        t.checkExpect(this.frog1.lives, 1);
+        t.checkExpect(this.frog1.score, 0);
+        this.frog1.posnX = 20;
+        this.frog1.lane = 10;
+        this.frog1.horizSpeed = 10;
+        
+        this.f1.onTick();
+        
+        t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 1);
+        t.checkExpect(this.f1.laneMap.lanes.get(6).size(), 1);
+        t.checkExpect(this.f1.laneMap.laneTickers.get(6), 2);
+        t.checkExpect(this.frog1.posnX, 400);
+        t.checkExpect(this.frog1.lane, 0);
+        t.checkExpect(this.frog1.lives, 1);
+        t.checkExpect(this.frog1.score, 10);
+        t.checkExpect(this.frog1.horizSpeed, 0);
+        
     }
     
     //move methods
     public void testMove(Tester t) {
     	this.reset();
-    	
+    	//frog
+    	t.checkExpect(this.frog1.posnX, 400);
+    	t.checkExpect(this.frog1.posnY, 567);
+    	this.frog1.move("up");
+    	t.checkExpect(this.frog1.posnX, 400);
+        t.checkExpect(this.frog1.posnY, 513);
+    	this.frog1.move("down");
+    	t.checkExpect(this.frog1.posnX, 400);
+        t.checkExpect(this.frog1.posnY, 567);
+    	this.frog1.move("left");
+    	t.checkExpect(this.frog1.posnX, 390);
+        t.checkExpect(this.frog1.posnY, 567);
+    	this.frog1.move("right");
+    	t.checkExpect(this.frog1.posnX, 400);
+        t.checkExpect(this.frog1.posnY, 567);
     	//IObject
     	t.checkExpect(this.lily1.xPosn, 0);
     	this.lily1.move();
@@ -262,10 +369,24 @@ public class Examples {
     }
     public void testLilyGen(Tester t) {
     	this.reset();
+    	t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 0);
+        this.f1.laneMap.lilyGen(3);
+        t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 1);
+        this.f1.laneMap.laneTickers.put(3, 3);
+        t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 1);
+        this.f1.laneMap.lilyGen(3);
+        t.checkExpect(this.f1.laneMap.lanes.get(3).size(), 1);
     	//t.checkExpect();
     }
     public void testCarGen(Tester t) {
     	this.reset();
+    	t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 0);
+        this.f1.laneMap.carGen(4);
+        t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 1);
+        this.f1.laneMap.laneTickers.put(4, 3);
+        t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 1);
+        this.f1.laneMap.carGen(4);
+        t.checkExpect(this.f1.laneMap.lanes.get(4).size(), 1);
     	//t.checkExpect();
     }
     
