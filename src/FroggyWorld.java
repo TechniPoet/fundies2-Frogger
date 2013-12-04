@@ -80,11 +80,27 @@ public class FroggyWorld extends World {
     }
     //
     
-    WorldImage goalImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight / 2), this.WIDTH, this.levelHeight, new Green());
-    WorldImage waterImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 3), this.WIDTH, this.levelHeight * 4, new Blue());
-    WorldImage midImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 5 + (this.levelHeight / 2)), this.WIDTH, this.levelHeight, new Green());
-    WorldImage roadImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 8), this.WIDTH, this.levelHeight * 4, new Black());
-    WorldImage startImage = new RectangleImage(new Posn(this.WIDTH / 2, this.levelHeight * 10 + (this.levelHeight / 2)), this.WIDTH, this.levelHeight, new Green());
+    WorldImage goalImage = new RectangleImage(
+            new Posn(this.WIDTH / 2, this.levelHeight / 2),
+            this.WIDTH, this.levelHeight, new Green());
+    
+    WorldImage waterImage = new RectangleImage(
+            new Posn(this.WIDTH / 2, this.levelHeight * 3),
+            this.WIDTH, this.levelHeight * 4, new Blue());
+    
+    WorldImage midImage = new RectangleImage(
+            new Posn(this.WIDTH / 2, this.levelHeight * 5 +
+                    (this.levelHeight / 2)),
+            this.WIDTH, this.levelHeight, new Green());
+    
+    WorldImage roadImage = new RectangleImage(
+            new Posn(this.WIDTH / 2, this.levelHeight * 8),
+            this.WIDTH, this.levelHeight * 4, new Black());
+    
+    WorldImage startImage = new RectangleImage(
+            new Posn(this.WIDTH / 2, this.levelHeight * 10 +
+                    (this.levelHeight / 2)), this.WIDTH,
+                    this.levelHeight, new Green());
     
     WorldImage background = new OverlayImages( this.startImage, 
             new OverlayImages( this.roadImage,
@@ -94,7 +110,9 @@ public class FroggyWorld extends World {
      * creates images for game
      */
     public WorldImage makeImage() {
-        return new OverlayImages(new OverlayImages(this.background, this.laneMap.draw()), this.frog.draw());
+        return new OverlayImages(
+                new OverlayImages(this.background, this.laneMap.draw()),
+                this.frog.draw());
     }
     /**
      * processes key inputs
@@ -120,8 +138,9 @@ public class FroggyWorld extends World {
     	}
     }
     public WorldImage lastImage() {
-    	return new TextImage(new Posn(FroggyWorld.HEIGHT / 2, FroggyWorld.WIDTH / 2), "Your hippity hopping in a better place now", 
-                    Color.red);
+    	return new TextImage(
+    	        new Posn(FroggyWorld.HEIGHT / 2, FroggyWorld.WIDTH / 2),
+    	        "You're hippity hopping in a better place now", Color.red);
     }
 
 }

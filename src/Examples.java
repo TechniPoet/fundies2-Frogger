@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javalib.colors.Green;
 import javalib.colors.Red;
@@ -21,11 +22,17 @@ public class Examples {
     Car car1;
     ArrayList<IObject> lane6;
     ArrayList<IObject> lane1;
+    HashMap<Integer, ArrayList<IObject>> lanes;
+    HashMap<Integer, Integer> laneTickers;
+    HashMap<Integer, Integer> laneSpeed;
     
     public void reset() {
-    	this.f1 = new FroggyWorld();
+    	
     	this.frog1 = new Frog(1);
     	this.laneMap1 = new LaneMap();
+    	this.lanes = new HashMap<Integer, ArrayList<IObject>>();
+    	this.laneTickers = new HashMap<Integer, Integer>();
+    	this.laneSpeed = new HashMap<Integer, Integer>();
     	
     	this.lily1 = new Lily(1, 5);
     	this.lilyOff = new Lily(1, 5);
@@ -35,11 +42,30 @@ public class Examples {
     	
     	this.lane6 = new ArrayList<IObject>();
     	this.lane1 = new ArrayList<IObject>();
-    	this.lane6.add(this.lily1);
     	this.lane6.add(this.lilyOff);
+    	this.lane6.add(this.lily1);
     	this.lane1.add(this.car1);
     	this.laneMap1.lanes.put(6, this.lane6);
     	this.laneMap1.lanes.put(1, this.lane1);
+    	this.f1 = new FroggyWorld(this.frog1, this.laneMap1);
+    	
+    	this.lanes.put(1, new ArrayList<IObject>());
+    	this.lanes.put(2, new ArrayList<IObject>());
+    	this.lanes.put(3, new ArrayList<IObject>());
+    	this.lanes.put(4, new ArrayList<IObject>());
+    	this.lanes.put(6, new ArrayList<IObject>());
+    	this.lanes.put(7, new ArrayList<IObject>());
+    	this.lanes.put(8, new ArrayList<IObject>());
+    	this.lanes.put(9, new ArrayList<IObject>());
+    	
+    	this.laneTickers.put(1, 0);
+    	this.laneTickers.put(2, 0);
+    	this.laneTickers.put(3, 0);
+    	this.laneTickers.put(4, 0);
+    	this.laneTickers.put(6, 0);
+    	this.laneTickers.put(7, 0);
+    	this.laneTickers.put(8, 0);
+    	this.laneTickers.put(9, 0);
     }
     
     //Draw methods
@@ -96,9 +122,9 @@ public class Examples {
     	this.lily1.move();
     	t.checkExpect(this.lily1.xPosn, 5);
     	//laneMap
-    	t.checkExpect(this.laneMap1.lanes.get(6).get(0).xPosn, 5);
+    	t.checkExpect(this.laneMap1.lanes.get(6).get(1).xPosn, 5);
     	this.laneMap1.move();
-    	t.checkExpect(this.laneMap1.lanes.get(6).get(0).xPosn, 10);
+    	t.checkExpect(this.laneMap1.lanes.get(6).get(1).xPosn, 10);
     }
     
     //frog restart
@@ -176,7 +202,7 @@ public class Examples {
     public void testOnSpeed(Tester t) {
     	this.reset();
     	t.checkExpect(this.f1.laneMap.onSpeed(3),
-    			this.f1.laneMap.laneSpeed.get(3));
+    			0);
     	t.checkExpect(this.f1.laneMap.onSpeed(7),
     			this.f1.laneMap.laneSpeed.get(7));
     	//t.checkExpect();
@@ -185,25 +211,53 @@ public class Examples {
     //killOffScreeb method
     public void testKillOffScreen(Tester t) {
     	this.reset();
+    	t.checkExpect(this.f1.laneMap.lanes.get(6).size(), 2);
+    	this.f1.laneMap.killOffScreen();
+    	t.checkExpect(this.f1.laneMap.lanes.get(6).size(), 1);
     	//t.checkExpect();
     }
     
     //create methods
     public void testCreateLanes(Tester t) {
     	this.reset();
+    	this.f1.laneMap.createLanes();
+    	t.checkExpect(this.f1.laneMap.lanes, this.lanes);
     	//t.checkExpect();
     }
     public void testCreateLaneTickers(Tester t) {
     	this.reset();
+    	this.f1.laneMap.createLaneTickers();
+        t.checkExpect(this.f1.laneMap.laneTickers, this.laneTickers);
     	//t.checkExpect();
     }
     public void testCreateLaneSpeed(Tester t) {
     	this.reset();
+    	//safeZones
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(0), 0);
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(5), 0);
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(10), 0);
+    	
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(1) > 0, false);
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(2) > 0, true);
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(3) > 0, false);
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(4) > 0, true);
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(6) > 0, true);
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(7) > 0, false);
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(8) > 0, true);
+    	t.checkExpect(this.f1.laneMap.laneSpeed.get(9) > 0, false);
+    	
     	//t.checkExpect();
     }
     //generation methods
     public void testLogGen(Tester t) {
     	this.reset();
+    	t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 0);
+    	this.f1.laneMap.logGen(2);
+    	t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 1);
+    	this.f1.laneMap.laneTickers.put(2, 3);
+    	t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 1);
+        this.f1.laneMap.logGen(2);
+        t.checkExpect(this.f1.laneMap.lanes.get(2).size(), 1);
     	//t.checkExpect();
     }
     public void testLilyGen(Tester t) {
