@@ -115,7 +115,7 @@ public class LaneMap {
     }
     /**
      * does frog collide with anything?
-     * @param lane int 
+     * @param lane int assumed not a safezone
      * @param x int
      * @return true if frog collides with any objects
      */
@@ -163,7 +163,7 @@ public class LaneMap {
     
     /**
      * returns speed for frog to move if on movable object
-     * @param lane
+     * @param lane assuming no safeZones
      * @return int at which frog should be moving
      */
     public int onSpeed(int lane) {

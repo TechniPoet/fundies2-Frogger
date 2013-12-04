@@ -12,6 +12,7 @@ public class FroggyWorld extends World {
     final static int HEIGHT = 600;
     final static int WIDTH = 800;
     
+    //height: 600 and LANE_NUM: 11 levelHeight should be 54
     final static int levelHeight = FroggyWorld.HEIGHT/LANE_NUM;
     
     /**

@@ -72,6 +72,10 @@ public class Frog {
         		FroggyWorld.levelHeight) - (FroggyWorld.levelHeight / 2);
     }
     
+    /**
+     * resets frogs position after death or win
+     * @param dead true if frog died
+     */
     public void restart(boolean dead) {
         if (dead) {
         	lives -= 1;
@@ -79,6 +83,7 @@ public class Frog {
         else {
         	score += 10;
         }
+        //sets frog back at start
         this.posnX = FroggyWorld.WIDTH / 2; //back to start
     	this.lane = 0;
     	this.posnY = ((FroggyWorld.LANE_NUM - this.lane) *
