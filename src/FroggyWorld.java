@@ -1,3 +1,8 @@
+//Assignment 8
+// Ginsparg, Jacob
+// jgins
+// Robbins, Jeff     
+// robbinsj
 import java.awt.Color;
 import java.util.ArrayList;
 

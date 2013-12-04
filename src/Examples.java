@@ -1,3 +1,8 @@
+//Assignment 8
+// Ginsparg, Jacob
+// jgins
+// Robbins, Jeff     
+// robbinsj
 import java.util.ArrayList;
 import java.util.HashMap;
 

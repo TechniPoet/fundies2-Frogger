@@ -1,3 +1,8 @@
+//Assignment 8
+// Ginsparg, Jacob
+// jgins
+// Robbins, Jeff     
+// robbinsj
 import javalib.colors.Green;
 import javalib.worldimages.Posn;
 import javalib.worldimages.RectangleImage;
