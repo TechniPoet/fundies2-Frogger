@@ -53,9 +53,10 @@ public class FroggyWorld extends World {
      * this.background...	WorldImage
      * Methods
      * this.makeImage()...	WorldImage
-     * this.OnKeyEvent()...	void
-     * this.WorldEnds()...	WorldEnd
+     * this.onKeyEvent()...	void
+     * this.worldEnds()...	WorldEnd
      * this.lastImage()...	WorldImage
+     * this.onTick()...		void
      */
 
     /**

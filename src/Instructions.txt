@@ -1,0 +1,10 @@
+Welcome to Blocker!
+
+use the arrow keys to move!
+Don't get hit by red blocks!
+Blue is water and you can't swim!
+green is always safe!
+Reach the other side for 10 points!
+If you lose all your lives YOU LOSE!
+
+Enjoy :)
